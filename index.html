@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TaskBoard — навчальна дошка завдань для керування справами та проєктами.">
+  <title>TaskBoard — дошка завдань</title>
+  <link rel="icon" href="images/logo.png" type="image/png">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти до вмісту</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="TaskBoard, головна сторінка">
+        <img src="images/logo.png" alt="Логотип TaskBoard" width="40" height="40">
+        <span>task<span class="brand-accent">board</span><small>навчальний проєкт</small></span>
+      </a>
+      <nav class="nav" aria-label="Основна навігація">
+        <a href="index.html" aria-current="page">Дошка</a>
+        <a href="about.html">Про автора</a>
+        <a href="docs/links.html">Ресурси</a>
+      </nav>
+      <span class="course-label">КН-3/1 · 2026</span>
+    </div>
+  </header>
+
+  <main class="container" id="main">
+    <section class="intro" aria-labelledby="intro-heading">
+      <div class="intro-main">
+        <span class="eyebrow">МОЯ РОБОЧА ОБЛАСТЬ <span class="eyebrow-mark" aria-hidden="true">✦</span></span>
+        <h1 id="intro-heading">Дошка завдань<span class="period">.</span></h1>
+        <p>Плануй навчання, розставляй пріоритети та відмічай виконане. Усі зміни залишаються у цьому браузері.</p>
+        <details class="about-details"><summary>Що таке TaskBoard?</summary><p>TaskBoard — навчальний застосунок для організації завдань у трьох колонках: «Заплановано», «У процесі» та «Готово». Проєкт показує HTML, CSS, JavaScript, Git і локальне збереження.</p></details>
+      </div>
+      <aside class="hero-note" aria-label="Підказка">
+        <span class="note-star" aria-hidden="true">✳</span>
+        <strong>Маленькі кроки — великий результат.</strong>
+        <p>Перетягни картку в іншу колонку або скористайся меню стану.</p>
+      </aside>
+    </section>
+
+    <section class="metrics" aria-label="Статистика завдань">
+      <article class="metric-card"><span class="metric-label">Усі задачі</span><strong class="metric-value" id="total-count">0</strong><span class="metric-detail">збережено на дошці</span></article>
+      <article class="metric-card"><span class="metric-label">У процесі</span><strong class="metric-value" id="progress-count">0</strong><span class="metric-detail">зараз у роботі</span></article>
+      <article class="metric-card"><span class="metric-label">Завершено</span><strong class="metric-value" id="done-count">0</strong><span class="metric-detail">маленьких перемог</span></article>
+      <article class="metric-card progress-metric"><span class="metric-label">Мій прогрес</span><strong class="metric-value" id="percent-count">0%</strong><div class="progress-track" role="progressbar" aria-label="Завершені завдання" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-bar"><span id="progress-fill"></span></div></article>
+    </section>
+
+    <section class="workspace" aria-labelledby="board-heading">
+      <div class="section-heading">
+        <div><span class="eyebrow">TASK WORKSPACE</span><h2 id="board-heading">Мої завдання</h2></div>
+        <button class="button button-primary" type="button" id="add-task"><span aria-hidden="true">＋</span> Нове завдання</button>
+      </div>
+      <div class="toolbar" role="search">
+        <label class="search-field"><span class="sr-only">Пошук завдань</span><span aria-hidden="true">⌕</span><input type="search" id="task-search" placeholder="Знайти завдання..." autocomplete="off"></label>
+        <label class="filter-label" for="priority-filter">Пріоритет</label>
+        <select id="priority-filter" aria-label="Фільтр за пріоритетом"><option value="all">Усі пріоритети</option><option value="high">Високий</option><option value="medium">Середній</option><option value="low">Низький</option></select>
+        <button type="button" class="button button-outline" id="clear-done">Очистити виконані</button>
+      </div>
+
+      <div class="board-grid" id="board">
+        <section class="board-column" data-status="todo" aria-labelledby="todo-heading">
+          <div class="column-header"><div class="column-title"><span class="status-dot status-todo" aria-hidden="true"></span><h3 id="todo-heading">Заплановано</h3><span class="count-pill" id="todo-count">0</span></div><span class="column-caption">НАСТУПНІ КРОКИ</span></div>
+          <div class="task-list" id="todo-list" aria-label="Заплановані завдання"></div>
+        </section>
+        <section class="board-column" data-status="doing" aria-labelledby="doing-heading">
+          <div class="column-header"><div class="column-title"><span class="status-dot status-doing" aria-hidden="true"></span><h3 id="doing-heading">У процесі</h3><span class="count-pill" id="doing-count">0</span></div><span class="column-caption">У РОБОТІ</span></div>
+          <div class="task-list" id="doing-list" aria-label="Завдання в процесі"></div>
+        </section>
+        <section class="board-column" data-status="done" aria-labelledby="done-heading">
+          <div class="column-header"><div class="column-title"><span class="status-dot status-done" aria-hidden="true"></span><h3 id="done-heading">Готово</h3><span class="count-pill" id="done-column-count">0</span></div><span class="column-caption">ВИКОНАНО</span></div>
+          <div class="task-list" id="done-list" aria-label="Виконані завдання"></div>
+        </section>
+      </div>
+      <p class="board-help" id="board-message" role="status" aria-live="polite">Щоб змінити статус, перетягни картку в іншу колонку або натисни «Змінити».</p>
+    </section>
+  </main>
+
+  <dialog id="task-dialog" aria-labelledby="dialog-heading">
+    <form id="task-form" class="task-form">
+      <div class="dialog-header"><div><span class="eyebrow">TASK EDITOR</span><h2 id="dialog-heading">Нове завдання</h2></div><button class="dialog-close" type="button" id="close-dialog" aria-label="Закрити">✕</button></div>
+      <input type="hidden" id="task-id">
+      <label for="task-title">Назва завдання <span aria-hidden="true">*</span></label><input id="task-title" name="title" maxlength="90" minlength="2" required placeholder="Наприклад: Закінчити CSS">
+      <label for="task-desc">Опис</label><textarea id="task-desc" name="description" rows="3" maxlength="300" placeholder="Що потрібно зробити?"></textarea>
+      <div class="form-grid"><div><label for="task-priority">Пріоритет</label><select id="task-priority" name="priority"><option value="low">Низький</option><option value="medium" selected>Середній</option><option value="high">Високий</option></select></div><div><label for="task-status">Статус</label><select id="task-status" name="status"><option value="todo">Заплановано</option><option value="doing">У процесі</option><option value="done">Готово</option></select></div></div>
+      <label for="task-date">Термін виконання</label><input id="task-date" name="date" type="date">
+      <div class="dialog-actions"><button type="button" class="button button-outline" id="cancel-dialog">Скасувати</button><button type="submit" class="button button-primary">Зберегти</button></div>
+    </form>
+  </dialog>
+
+  <footer class="site-footer"><div class="container footer-inner"><p>© 2026 TaskBoard · Єремейчук Максим · КН-3/1</p><p>Створено з <span aria-label="любов'ю">♥</span> до веброзробки</p></div></footer>
+</body>
+</html>
