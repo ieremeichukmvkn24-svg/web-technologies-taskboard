@@ -1,0 +1,30 @@
+name: Перевірка вебтехнологій
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Перевірка JavaScript
+        run: node --check js/app.js
+      - name: Перевірка HTML та посилань
+        run: python scripts/verify_site.py
+      - name: Python практичні 1-4
+        shell: bash
+        run: |
+          set -e
+          for d in practice1_input_conditions practice2_while_list practice3_for_dict practice4_def; do
+            python -m unittest discover -s "$d" -p 'test_*.py' -v
+          done
